@@ -14,7 +14,8 @@ export const AutoComplete = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                let response = await axios('https://carrerninjagot.herokuapp.com/api/battles')
+                let url = `${process.env.SERVICE_URL}` || 'https://carrerninjagot.herokuapp.com'
+                let response = await axios(`${url}/api/battles`)
                 let uniqueResult = []
                 for (let i = 0; i < response.data.length; i++) {
                     if (!uniqueResult.includes(response.data[i])) {
@@ -53,7 +54,8 @@ export const AutoComplete = () => {
     const handleSearchOnClick = (text) => {
         async function getBattleInfo() {
             try {
-                let response = await axios(`https://carrerninjagot.herokuapp.com/api/search?battle=${text}`)
+                let url = `${process.env.SERVICE_URL}` || 'https://carrerninjagot.herokuapp.com'
+                let response = await axios(`${url}/api/search?battle=${text}`)
                 setFinalResult(response.data)
             }
             catch (e) {
@@ -67,6 +69,7 @@ export const AutoComplete = () => {
         setText(value)
         setActiveOption(index)
         setShowSuggestion(false)
+        handleSearchOnClick(value)
     }
 
     const handleOnKeyPress = (e, text) => {
